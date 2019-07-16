@@ -36,13 +36,29 @@ describe('test routes', () => {
   });
 
   it('can get all memes using /GET', async() => {
-    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://github.com/alchemy-fullstack-js-summer-2019/my-human-behaviors/blob/master/lib/routes/habits.js' });
+    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://i.imgur.com/YXoqo5i.jpg' });
 
     return request(app)
       .get('/api/v1/memes')
       .then(res => {
         const memeJSON = JSON.parse(JSON.stringify(meme));
-        expect(res.body).toEqual(memeJSON);
+        expect(res.body[0]).toEqual(memeJSON);
+      });
+  });
+
+  it('can get a meme by its ID using /get', async() => {
+    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://i.imgur.com/YXoqo5i.jpg' });
+
+    return request(app)
+      .get(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          top: 'Elon',
+          bottom: 'Musk',
+          image: 'https://i.imgur.com/YXoqo5i.jpg',
+          __v: 0
+        });
       });
   });
 });
