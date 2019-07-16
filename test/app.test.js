@@ -69,8 +69,8 @@ describe('test routes', () => {
       .patch(`/api/v1/memes/${meme._id}`)
       .send({ top: 'Musk', bottom: 'Elon' })
       .then(res => {
-        expect(res.body.top).toEqual({ top: 'Musk' });
-        expect(res.body.bottom).toEqual({ bottom: 'Elon' });
+        expect(res.body.top).toEqual('Musk');
+        expect(res.body.bottom).toEqual('Elon');
       });
   });
 });
