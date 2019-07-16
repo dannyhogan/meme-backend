@@ -73,4 +73,21 @@ describe('test routes', () => {
         expect(res.body.bottom).toEqual('Elon');
       });
   });
+
+  it('can delete a meme by ID using /delete', async() => {
+    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://i.imgur.com/YXoqo5i.jpg' });
+
+    return request(app)
+      .delete(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          top: 'Elon',
+          bottom: 'Musk',
+          image: 'https://i.imgur.com/YXoqo5i.jpg',
+          __v: 0
+        });
+      });
+
+  });
 });
