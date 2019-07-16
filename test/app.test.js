@@ -61,4 +61,16 @@ describe('test routes', () => {
         });
       });
   });
+
+  it('can update the bottom and top text of a meme using /patch', async() => {
+    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://i.imgur.com/YXoqo5i.jpg' });
+
+    return request(app)
+      .patch(`/api/v1/memes/${meme._id}`)
+      .send({ top: 'Musk', bottom: 'Elon' })
+      .then(res => {
+        expect(res.body.top).toEqual({ top: 'Musk' });
+        expect(res.body.bottom).toEqual({ bottom: 'Elon' });
+      });
+  });
 });
