@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
+const Meme = require('../lib/models/Meme');
 
 describe('test routes', () => {
 
@@ -31,6 +32,17 @@ describe('test routes', () => {
           image: 'https://i.imgur.com/YXoqo5i.jpg',
           __v: 0
         });
+      });
+  });
+
+  it('can get all memes using /GET', async() => {
+    const meme = await Meme.create({ top: 'Elon', bottom: 'Musk', image: 'https://github.com/alchemy-fullstack-js-summer-2019/my-human-behaviors/blob/master/lib/routes/habits.js' });
+
+    return request(app)
+      .get('/api/v1/memes')
+      .then(res => {
+        const memeJSON = JSON.parse(JSON.stringify(meme));
+        expect(res.body).toEqual(memeJSON);
       });
   });
 });
